@@ -1,0 +1,23 @@
+@keyframes fadeoutAnimation {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.show {
+  display: block;
+}
+
+.fadeout {
+  animation: fadeoutAnimation normal 2s ease-in;
+}
+
+.zIndex {
+  z-index: 100;
+}

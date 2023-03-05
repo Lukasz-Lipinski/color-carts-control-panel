@@ -1,0 +1,35 @@
+<app-searcher
+  (searcherEmitter)="onSearch($event)"
+></app-searcher>
+
+<app-products-list
+  *ngIf="products$ | async; else Error"
+  [products$]="products$"
+>
+</app-products-list>
+
+<app-updated-form-modal
+  *ngIf="(modal$ | async) === 'update'"
+  (toastEmitter)="setToast($event)"
+></app-updated-form-modal>
+
+<app-remove-modal
+  *ngIf="(modal$ | async) === 'remove'"
+  (toastEmitter)="setToast($event)"
+></app-remove-modal>
+
+<ng-template #Error>
+  <div class="container">
+    <span class="lead">{{ error?.msg }}</span>
+    <p class="">
+      <a
+        routerLink="/"
+        class="link-primary"
+      >
+        Click here
+      </a>
+      to redirect to login page
+    </p>
+  </div>
+</ng-template>
+<ng-template appToast></ng-template>

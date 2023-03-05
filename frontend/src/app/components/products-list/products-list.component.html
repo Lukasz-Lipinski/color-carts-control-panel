@@ -1,0 +1,6 @@
+<ul class="list-group py-3 gap-3">
+  <app-product-item
+    *ngFor="let product of products$ | async"
+    [product]="product"
+  ></app-product-item>
+</ul>

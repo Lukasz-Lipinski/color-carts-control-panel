@@ -1,0 +1,24 @@
+<div
+  class="modal showModal"
+  (click)="onCloseDialog()"
+>
+  <div
+    class="modal-dialog-centered modal-dialog"
+    (click)="onStopPag($event)"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">{{
+          modalDetails.title
+        }}</span>
+        <button
+          class="btn btn-close"
+          (click)="onCloseDialog()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ng-content select="[body]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

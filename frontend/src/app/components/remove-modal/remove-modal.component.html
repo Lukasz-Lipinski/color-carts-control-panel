@@ -1,0 +1,29 @@
+<app-modal
+  [modalDetails]="modalDetails"
+  (closeDialogEmitter)="onCloseModal()"
+>
+  <div
+    class="container"
+    body
+  >
+    <p class="fw-semibold text-center fs-4">
+      Are you sure to remove this product?
+    </p>
+    <div
+      class="container d-flex justify-content-evenly"
+    >
+      <button
+        (click)="onRemoveProduct()"
+        class="btn btn-danger"
+      >
+        Delete
+      </button>
+      <button
+        (click)="onCloseModal()"
+        class="btn btn-primary"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</app-modal>

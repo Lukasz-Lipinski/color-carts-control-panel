@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <form
+    [formGroup]="searcherForm"
+    (ngSubmit)="onSearch($event)"
+  >
+    <div class="input-group">
+      <input
+        type="search"
+        formControlName="searcher"
+        placeholder="Find product"
+        class="form-control w-50"
+        (keydown)="onSearch($event)"
+      />
+      <select
+        class="form-select"
+        formControlName="category"
+      >
+        <option
+          selected
+          value="all"
+        >
+          ALL
+        </option>
+        <option
+          *ngFor="let cat of categories"
+          [value]="cat.mainCategory"
+        >
+          {{ cat.mainCategory | uppercase }}
+        </option>
+      </select>
+      <button
+        type="submit"
+        class="btn btn-outline-primary"
+        [disabled]="searcherForm.invalid"
+      >
+        <span class="bi bi-search"></span>
+      </button>
+    </div>
+  </form>
+</div>

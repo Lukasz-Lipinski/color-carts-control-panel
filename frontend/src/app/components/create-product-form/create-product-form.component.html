@@ -1,0 +1,91 @@
+<form
+  [formGroup]="createProductForm"
+  class="container-fluid d-flex flex-column shadow border p-5 customWidth rounded"
+  (ngSubmit)="onSubmit()"
+>
+  <h3 class="text-center h3 pb-4">
+    Product Details
+  </h3>
+  <label
+    *ngFor="let input of fields"
+    class="input-group flex-nowrap mb-3"
+  >
+    <span class="input-group-text labelWidth">{{
+      input.label | uppercase
+    }}</span>
+    <input
+      class="form-control"
+      [ngClass]="
+        checkIfValid(input.name)
+          ? 'is-valid'
+          : 'is-invalid'
+      "
+      [formControlName]="input.name"
+      type="string"
+    />
+  </label>
+
+  <div class="input-group">
+    <span class="input-group-text">Category</span>
+    <select
+      class="form-select"
+      formControlName="category"
+      (change)="onSetIndex($event)"
+    >
+      <option
+        *ngFor="
+          let category of categories;
+          let i = index
+        "
+        [value]="category.mainCategory"
+        [selected]="i === 0"
+      >
+        {{ category.mainCategory | uppercase }}
+      </option>
+    </select>
+    <span class="input-group-text"
+      >Subcategory</span
+    >
+    <select
+      class="form-select"
+      formControlName="subcategory"
+    >
+      <option
+        *ngFor="let subcategory of subcategories"
+        [value]="subcategory"
+      >
+        {{ subcategory | uppercase }}
+      </option>
+    </select>
+  </div>
+
+  <div class="py-3">
+    <h4 class="h4 text-center">Description</h4>
+
+    <textarea
+      formControlName="description"
+      class="form-control"
+      rows="10"
+      [ngClass]="
+        checkIfValid('description')
+          ? 'is-valid'
+          : 'is-invalid'
+      "
+    ></textarea>
+  </div>
+
+  <div class="py-3 d-flex justify-content-center">
+    <button
+      type="submit"
+      class="btn"
+      [ngClass]="
+        isDisabled()
+          ? 'btn-outline-danger'
+          : 'btn-outline-success'
+      "
+      [disabled]="isDisabled()"
+    >
+      Add product
+    </button>
+  </div>
+</form>

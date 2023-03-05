@@ -1,0 +1,58 @@
+<section
+  class="w-100 vh-100 d-flex justify-content-center align-items-center"
+>
+  <form
+    class="container form-width border rounded-3 shadow p-4"
+    (ngSubmit)="onSubmit()"
+    [formGroup]="form"
+  >
+    <div
+      class="container"
+      *ngFor="let field of fields"
+    >
+      <input
+        class="form-control my-3"
+        [ngClass]="
+          (getError(field.label) &&
+            isTouchedAndDirty(field.label) &&
+            'is-invalid') ||
+          ''
+        "
+        [formControlName]="field.label"
+        [placeholder]="field.placeholder"
+      />
+    </div>
+    <div
+      class="d-flex justify-content-center p-3"
+    >
+      <p>
+        Switch on
+        <span
+          (click)="onToggle()"
+          class="text-primary text-decoration-underline pointer"
+          >{{
+            isRegisterForm ? 'login' : 'sign up'
+          }}</span
+        >
+      </p>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button
+        type="submit"
+        class="btn"
+        [ngClass]="
+          form.invalid
+            ? 'btn-outline-danger'
+            : 'btn-outline-primary'
+        "
+        [disabled]="form.invalid"
+      >
+        {{
+          (isRegisterForm ? 'sign up' : 'login')
+            | uppercase
+        }}
+      </button>
+    </div>
+  </form>
+</section>
+<ng-template appToast></ng-template>

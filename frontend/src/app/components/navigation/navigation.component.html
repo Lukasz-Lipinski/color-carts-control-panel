@@ -1,0 +1,35 @@
+<div class="navbar-area">
+  <nav
+    class="navbar border-bottom shadow-sm px-3"
+  >
+    <span class="lead">
+      Hello {{ (user$ | async)?.name }}
+    </span>
+    <div class="d-flex gap-4">
+      <a
+        *ngFor="let link of links | async"
+        [routerLink]="link.href"
+        routerLinkActive="link-secondary"
+        [routerLinkActiveOptions]="{
+          exact: true
+        }"
+        class="link-primary fs-1 p-2"
+        [ngClass]="
+          link.label === 'Home'
+            ? 'navbar-brand'
+            : ''
+        "
+      >
+        <span [ngClass]="link.icon"></span>
+      </a>
+    </div>
+    <div>
+      <button
+        class="btn btn-outline-danger p-2"
+        (click)="onLogout()"
+      >
+        Logout
+      </button>
+    </div>
+  </nav>
+</div>

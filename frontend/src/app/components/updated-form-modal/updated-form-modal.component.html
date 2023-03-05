@@ -1,0 +1,12 @@
+<app-modal
+  [modalDetails]="modalDetails"
+  (closeDialogEmitter)="onCloseModal()"
+>
+  <app-update-product-form
+    body
+    (toastEmitter)="onToastEmitter($event)"
+    [selectedProduct]="
+      (selectedProduct$ | async)!
+    "
+  ></app-update-product-form>
+</app-modal>

@@ -1,0 +1,28 @@
+<div
+  *ngIf="details"
+  class="w-100 d-flex justify-content-center zIndex"
+>
+  <div
+    class="toast show mb-3 fadeout position-fixed bottom-0"
+  >
+    <div
+      class="toast-header d-flex justify-content-between align-content-center"
+    >
+      <p class="h4">
+        {{
+          details.status === 200
+            ? 'Success'
+            : 'Error'
+        }}
+      </p>
+      <button
+        class="btn btn-close"
+        (click)="onHideToast()"
+      ></button>
+    </div>
+
+    <div class="toast-body">
+      {{ details.msg }}
+    </div>
+  </div>
+</div>

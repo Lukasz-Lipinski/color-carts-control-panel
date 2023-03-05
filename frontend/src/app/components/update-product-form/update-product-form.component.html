@@ -1,0 +1,85 @@
+<section class="container z-index-upper">
+  <form
+    [formGroup]="updateForm"
+    (ngSubmit)="onUpdate()"
+    class="d-flex flex-column align-items-center"
+  >
+    <div
+      *ngFor="let field of fields"
+      class="input-group"
+    >
+      <span class="input-group-text">{{
+        field.label | uppercase
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        [formControlName]="field.name"
+      />
+    </div>
+    <div class="input-group">
+      <span class="input-group-text"
+        >Category</span
+      >
+      <select
+        class="form-select"
+        formControlName="category"
+        (change)="onSetSubcategories()"
+      >
+        <option
+          *ngFor="let cat of categories"
+          [value]="cat.mainCategory"
+        >
+          {{ cat.mainCategory | uppercase }}
+        </option>
+      </select>
+    </div>
+    <div class="input-group">
+      <span class="input-group-text">
+        Subcategory
+      </span>
+      <select
+        class="form-select"
+        formControlName="subcategory"
+      >
+        <option
+          *ngFor="let subcat of subcategories"
+          [value]="subcat"
+        >
+          {{ subcat | uppercase }}
+        </option>
+      </select>
+    </div>
+    <div class="container p-3">
+      <textarea
+        formControlName="description"
+        class="form-control"
+        rows="10"
+      ></textarea>
+    </div>
+    <div class="container"></div>
+    <button
+      type="submit"
+      class="btn"
+      [ngClass]="
+        spinner.isShown
+          ? 'btn-outline-warning'
+          : 'btn-outline-primary'
+      "
+      [disabled]="spinner.isShown"
+    >
+      <span *ngIf="!spinner.isShown; else Spinner"
+        >Update</span
+      >
+    </button>
+  </form>
+</section>
+
+<ng-template #Spinner>
+  <div
+    class="spinner-border"
+    role="status"
+  >
+    <span class="visually-hidden"> </span>
+  </div>
+</ng-template>
