@@ -23,7 +23,7 @@ app.use(
   express.static(
     path.join(
       process.cwd(),
-      '/dist/color-carts-control-panel'
+      '/frontend/dist/color-carts-control-panel'
     )
   )
 );
@@ -40,7 +40,7 @@ app.get('**', (req: Request, res: Response) => {
   return res.sendFile(
     path.join(
       process.cwd(),
-      '/dist/color-carts-control-panel/index.html'
+      '/frontend/dist/color-carts-control-panel/index.html'
     ),
     (err) => {
       console.log(err);
@@ -51,3 +51,5 @@ app.get('**', (req: Request, res: Response) => {
 app.listen(PORT, () => {
   console.log('It works at ' + PORT);
 });
+
+export default app;
