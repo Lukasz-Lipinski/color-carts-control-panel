@@ -16,22 +16,26 @@ import { ModalComponent } from '../components/modal/modal.component';
 import { UpdateProductFormComponent } from '../components/update-product-form/update-product-form.component';
 import { UpdatedFormModalComponent } from '../components/updated-form-modal/updated-form-modal.component';
 import { RemoveModalComponent } from '../components/remove-modal/remove-modal.component';
+import { PasswordFormComponent } from '../components/password-form/password-form.component';
+
+const components = [
+  PasswordFormComponent,
+  HomeFormComponent,
+  NavigationComponent,
+  ToastComponent,
+  ToastDirective,
+  ProductsListComponent,
+  ProductItemComponent,
+  CreateProductFormComponent,
+  SearcherComponent,
+  ModalComponent,
+  UpdateProductFormComponent,
+  UpdatedFormModalComponent,
+  RemoveModalComponent,
+];
 
 @NgModule({
-  declarations: [
-    HomeFormComponent,
-    NavigationComponent,
-    ToastComponent,
-    ToastDirective,
-    ProductsListComponent,
-    ProductItemComponent,
-    CreateProductFormComponent,
-    SearcherComponent,
-    ModalComponent,
-    UpdateProductFormComponent,
-    UpdatedFormModalComponent,
-    RemoveModalComponent,
-  ],
+  declarations: components,
   imports: [
     CommonModule,
     RouterModule,
@@ -39,18 +43,8 @@ import { RemoveModalComponent } from '../components/remove-modal/remove-modal.co
     HttpClientModule,
   ],
   exports: [
-    UpdatedFormModalComponent,
-    RemoveModalComponent,
-    UpdateProductFormComponent,
-    ModalComponent,
-    SearcherComponent,
-    CreateProductFormComponent,
-    ProductItemComponent,
+    ...components,
     ToastDirective,
-    ProductsListComponent,
-    ToastComponent,
-    HomeFormComponent,
-    NavigationComponent,
     CommonModule,
     RouterModule,
     ReactiveFormsModule,

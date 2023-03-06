@@ -3,6 +3,15 @@ import { SharedModule } from '../shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
 import { UserData } from '../components/auth/auth.service';
 import { Observable, map } from 'rxjs';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+
+export interface UserFormProps {
+  email: FormControl<string>;
+}
 
 @Component({
   selector: 'app-user-data',
@@ -13,6 +22,7 @@ import { Observable, map } from 'rxjs';
 })
 export class UserDataComponent implements OnInit {
   userData!: Observable<UserData>;
+  userForm!: FormGroup<UserFormProps>;
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -24,5 +34,12 @@ export class UserDataComponent implements OnInit {
         return userData;
       })
     );
+
+    this.userForm = new FormGroup({
+      email: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+    });
   }
 }

@@ -1,5 +1,13 @@
-<section class="container-fluid">
-  <div class="border">
+<section class="container-fluid row gap-1">
+  <div
+    class="container col-5 border shadow rounded-2 p-3"
+  >
+    <form [formGroup]="userForm"></form>
     {{ userData | async | json }}
+  </div>
+  <div
+    class="container col-5 border shadow rounded-2 p-3"
+  >
+    <app-password-form></app-password-form>
   </div>
 </section>
