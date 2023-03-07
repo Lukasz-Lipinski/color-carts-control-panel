@@ -88,4 +88,16 @@ export class AuthService {
   isLogged$() {
     return of(true);
   }
+<<<<<<< HEAD
+
+  setNewPassword(
+    newPassword: string
+  ): Observable<BackendRes> {
+    return this.http.patch<BackendRes>(
+      this.url + '/api/users/update',
+      { newPassword }
+    );
+  }
+=======
+>>>>>>> f0d308aac9b804ccf526157c009724690438558a
 }

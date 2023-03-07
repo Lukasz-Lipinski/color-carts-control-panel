@@ -8,6 +8,12 @@
   <div
     class="container col-5 border shadow rounded-2 p-3"
   >
-    <app-password-form></app-password-form>
+    <app-password-form
+      (passwordEmitter)="
+        onSaveNewPassword($event)
+      "
+    ></app-password-form>
   </div>
 </section>
+
+<ng-template appToast></ng-template>

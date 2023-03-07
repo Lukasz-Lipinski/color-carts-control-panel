@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
-import { UserData } from '../components/auth/auth.service';
+import {
+  AuthService,
+  UserData,
+} from '../components/auth/auth.service';
 import { Observable, map } from 'rxjs';
 import {
   FormControl,
@@ -25,6 +28,7 @@ export class UserDataComponent implements OnInit {
   userForm!: FormGroup<UserFormProps>;
 
   constructor(
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -41,5 +45,11 @@ export class UserDataComponent implements OnInit {
         validators: [Validators.required],
       }),
     });
+  }
+
+  onSaveNewPassword(newPass: string) {
+    this.authService
+      .setNewPassword(newPass)
+      .subscribe();
   }
 }
