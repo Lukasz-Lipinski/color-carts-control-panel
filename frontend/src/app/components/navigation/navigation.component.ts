@@ -43,4 +43,8 @@ export class NavigationComponent
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
+  ngOnDestroy() {
+    this.user$.subscribe().unsubscribe();
+  }
 }

@@ -6,7 +6,9 @@ import {
   BehaviorSubject,
   Observable,
   catchError,
+  concatMap,
   of,
+  switchMap,
 } from 'rxjs';
 import {
   Injectable,
@@ -42,8 +44,8 @@ export class AuthService {
 
   user$ = new BehaviorSubject<UserData>({
     isLogged: false,
-    name: '',
-    email: '',
+    name: 'test111',
+    email: 'test@test.com',
   });
 
   constructor(private http: HttpClient) {}
@@ -89,12 +91,30 @@ export class AuthService {
     return of(true);
   }
 
-  setNewPassword(
-    newPassword: string
-  ): Observable<BackendRes> {
-    return this.http.patch<BackendRes>(
-      this.url + '/api/users/update',
-      { newPassword }
+  setNewPassword(passwords: {
+    newPassword: string;
+    currPassword: string;
+  }): Observable<BackendRes> {
+    return this.user$.pipe(
+      switchMap((user) => {
+        return this.http.put<BackendRes>(
+          this.url + '/api/users/update/password',
+          {
+            ...passwords,
+            user: {
+              name: user.name,
+              email: user.email,
+            },
+          }
+        );
+      })
+    );
+  }
+
+  updateUserData(): Observable<BackendRes> {
+    return this.http.put<BackendRes>(
+      this.url + '/api/users/update/user-data',
+      {}
     );
   }
 }

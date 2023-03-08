@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -11,6 +15,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ToastDirective } from '../components/toast/toast.directive';
+import { ToastService } from '../components/toast/toast.service';
 
 export interface UserFormProps {
   email: FormControl<string>;
@@ -26,8 +32,11 @@ export interface UserFormProps {
 export class UserDataComponent implements OnInit {
   userData!: Observable<UserData>;
   userForm!: FormGroup<UserFormProps>;
+  @ViewChild(ToastDirective)
+  toast!: ToastDirective;
 
   constructor(
+    private toastService: ToastService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute
   ) {}
@@ -47,9 +56,18 @@ export class UserDataComponent implements OnInit {
     });
   }
 
-  onSaveNewPassword(newPass: string) {
+  onSaveNewPassword(passwords: {
+    newPassword: string;
+    currPassword: string;
+  }) {
     this.authService
-      .setNewPassword(newPass)
-      .subscribe();
+      .setNewPassword(passwords)
+      .subscribe({
+        next: (res) =>
+          this.toastService.createComponent(
+            this.toast,
+            res
+          ),
+      });
   }
 }

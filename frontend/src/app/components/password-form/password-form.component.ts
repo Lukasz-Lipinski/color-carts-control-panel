@@ -32,8 +32,10 @@ export interface PasswordFormProps {
 export class PasswordFormComponent {
   passwordForm!: FormGroup<PasswordFormProps>;
   passwordInputs!: PasswordFields[];
-  @Output() passwordEmitter =
-    new EventEmitter<string>();
+  @Output() passwordEmitter = new EventEmitter<{
+    newPassword: string;
+    currPassword: string;
+  }>();
 
   constructor(
     private passwordFormService: PasswordFormService
@@ -97,10 +99,14 @@ export class PasswordFormComponent {
   }
 
   onSubmitPassword() {
-    this.passwordEmitter.emit(
-      this.passwordForm.controls['newPassword']
-        .value
-    );
+    this.passwordEmitter.emit({
+      newPassword:
+        this.passwordForm.controls['newPassword']
+          .value,
+      currPassword:
+        this.passwordForm.controls['oldPassword']
+          .value,
+    });
   }
 
   onToggleVisibility(control: string) {

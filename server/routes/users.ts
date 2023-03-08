@@ -4,15 +4,16 @@ import express, {
   Router,
 } from 'express';
 import {
-  compare,
   genSaltSync,
   hash,
+  hashSync,
 } from 'bcryptjs';
 import {
   findUser,
   connectToDB,
   comparePassword,
 } from '../service';
+import { connect } from 'http2';
 
 const salt = genSaltSync();
 
@@ -46,7 +47,6 @@ router.post(
       client,
       user
     );
-
     isFoundUser &&
       (await comparePassword(
         user,
@@ -62,6 +62,9 @@ router.post(
         msg: 'Invalid data',
         status: 402,
       });
+
+    client.close();
+    return;
   }
 );
 
@@ -94,11 +97,93 @@ router.post(
           password: hashedPassword,
         });
 
-      res.json({
+      await client.close();
+
+      return res.json({
         msg: 'An account created successfully',
         status: 200,
       });
     }
+  }
+);
+
+interface PasswordBodyRequest {
+  newPassword: string;
+  currPassword: string;
+  user: User;
+}
+
+router.put(
+  '/update/password',
+  async (
+    req: Request<any, any, PasswordBodyRequest>,
+    res: Response<ResToApp>
+  ) => {
+    const { currPassword, newPassword, user } =
+      req.body;
+
+    const client = await connectToDB();
+    const foundUser = await findUser(
+      client,
+      user
+    );
+
+    if (
+      await comparePassword(
+        {
+          ...user,
+          password: currPassword,
+        },
+        foundUser
+      )
+    ) {
+      await client
+        .db('color-cart')
+        .collection('admins')
+        .updateOne(
+          {
+            email: foundUser.email,
+            name: foundUser.name,
+          },
+          {
+            $set: {
+              password: await hash(
+                newPassword,
+                salt
+              ),
+            },
+          }
+        );
+
+      client.close();
+
+      return res.json({
+        msg: 'Successful',
+        status: 200,
+      });
+    }
+
+    client.close();
+    return res.json({
+      msg: 'Invalid password',
+      status: 401,
+    });
+  }
+);
+
+interface UserDataBody {
+  user: User;
+  newData: User;
+  password: string;
+}
+
+router.put(
+  '/update/user-data',
+  (
+    req: Request<any, any, UserDataBody>,
+    res: Response<ResToApp>
+  ) => {
+    const { user, newData, password } = req.body;
   }
 );
 

@@ -17,6 +17,7 @@ import { UpdateProductFormComponent } from '../components/update-product-form/up
 import { UpdatedFormModalComponent } from '../components/updated-form-modal/updated-form-modal.component';
 import { RemoveModalComponent } from '../components/remove-modal/remove-modal.component';
 import { PasswordFormComponent } from '../components/password-form/password-form.component';
+import { UpdateUserDataFromComponent } from '../components/update-user-data-from/update-user-data-from.component';
 
 const components = [
   PasswordFormComponent,
@@ -32,6 +33,7 @@ const components = [
   UpdateProductFormComponent,
   UpdatedFormModalComponent,
   RemoveModalComponent,
+  UpdateUserDataFromComponent,
 ];
 
 @NgModule({

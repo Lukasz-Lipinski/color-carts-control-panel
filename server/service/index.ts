@@ -1,7 +1,7 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient } from 'mongodb';
 import { User } from '../routes/users';
-import { compare } from 'bcryptjs';
 import { Product } from '../routes/products';
+import { compare } from 'bcryptjs';
 
 export async function connectToDB() {
   return new MongoClient(
@@ -31,8 +31,24 @@ export async function getAllProductsFromDB(
 
 export async function saveUserData(
   client: MongoClient,
-  user: User
-) {}
+  currentUser: User,
+  newData: Omit<User, 'password'>
+) {
+  await client
+    .db('color-cart')
+    .collection('admins')
+    .updateOne(
+      {
+        email: currentUser.email,
+        name: currentUser.name,
+      },
+      {
+        $set: {
+          ...newData,
+        },
+      }
+    );
+}
 
 export async function findUser(
   client: MongoClient,
@@ -53,9 +69,13 @@ export async function comparePassword(
   user: User,
   foundUser: User
 ) {
-  return await compare(
-    user.password,
-    foundUser.password
+  return (
+    user &&
+    foundUser &&
+    (await compare(
+      user.password,
+      foundUser.password
+    ))
   );
 }
 

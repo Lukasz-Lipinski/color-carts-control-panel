@@ -1,0 +1,48 @@
+<form
+  [formGroup]="updateUserDataForm"
+  (ngSubmit)="onSubmit()"
+  class="container-fluid py-3"
+>
+  <label
+    class="input-group mb-2"
+    *ngFor="let field of updateUserDataFormFields"
+  >
+    <span class="input-group-text bg-light">
+      {{ field.name | uppercase }}
+    </span>
+    <input
+      class="form-control"
+      [formControlName]="field.name"
+      [placeholder]="field.placeholder"
+      [type]="field.type"
+    />
+  </label>
+
+  <div class="container py-4">
+    <p class="fs-6 text-center">
+      Please assign your password to save
+      new-assiegned data
+    </p>
+    <input
+      type="password"
+      formControlName="confirmingPassword"
+      class="form-control"
+    />
+  </div>
+  <div
+    class="container d-flex justify-content-center"
+  >
+    <button
+      type="submit"
+      class="btn"
+      [ngClass]="
+        updateUserDataForm.invalid
+          ? 'btn-danger'
+          : 'btn-primary'
+      "
+      [disabled]="updateUserDataForm.invalid"
+    >
+      Update
+    </button>
+  </div>
+</form>
