@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 import {
   Component,
   EventEmitter,
   OnInit,
   Output,
 } from '@angular/core';
-=======
-import { Component, OnInit } from '@angular/core';
->>>>>>> f0d308aac9b804ccf526157c009724690438558a
 import {
   AbstractControl,
   FormControl,
@@ -33,16 +29,11 @@ export interface PasswordFormProps {
   templateUrl: './password-form.component.html',
   styleUrls: ['./password-form.component.scss'],
 })
-export class PasswordFormComponent
-  implements OnInit
-{
+export class PasswordFormComponent {
   passwordForm!: FormGroup<PasswordFormProps>;
   passwordInputs!: PasswordFields[];
-<<<<<<< HEAD
   @Output() passwordEmitter =
     new EventEmitter<string>();
-=======
->>>>>>> f0d308aac9b804ccf526157c009724690438558a
 
   constructor(
     private passwordFormService: PasswordFormService
@@ -105,16 +96,12 @@ export class PasswordFormComponent
     return '';
   }
 
-<<<<<<< HEAD
   onSubmitPassword() {
     this.passwordEmitter.emit(
       this.passwordForm.controls['newPassword']
         .value
     );
   }
-=======
-  onSubmitPassword() {}
->>>>>>> f0d308aac9b804ccf526157c009724690438558a
 
   onToggleVisibility(control: string) {
     this.passwordInputs.forEach((input) => {
