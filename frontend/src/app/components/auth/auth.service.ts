@@ -88,7 +88,6 @@ export class AuthService {
   isLogged$() {
     return of(true);
   }
-<<<<<<< HEAD
 
   setNewPassword(
     newPassword: string
@@ -98,6 +97,4 @@ export class AuthService {
       { newPassword }
     );
   }
-=======
->>>>>>> f0d308aac9b804ccf526157c009724690438558a
 }
