@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 import { environment as DevEnv } from 'src/environments/environment';
 import { environment as ProdEnv } from 'src/environments/environment.prod';
+import { UserDataEmitterProps } from '../update-user-data-from/update-user-data-from.component';
 
 export interface NewUser {
   email: string;
@@ -111,10 +112,30 @@ export class AuthService {
     );
   }
 
-  updateUserData(): Observable<BackendRes> {
+  updateUserData(data: {
+    user: UserData;
+    newData: UserDataEmitterProps;
+  }): Observable<BackendRes> {
+    const { newData, user } = data;
+
+    interface BodyReq {
+      user: Omit<UserData, 'isLogged'>;
+      newData: Omit<UserData, 'isLogged'>;
+      password: string;
+    }
+
+    const body: BodyReq = {
+      user: {
+        email: user.email,
+        name: user.name,
+      },
+      newData: newData.newData,
+      password: newData.confirmingPassword,
+    };
+
     return this.http.put<BackendRes>(
       this.url + '/api/users/update/user-data',
-      {}
+      body
     );
   }
 }

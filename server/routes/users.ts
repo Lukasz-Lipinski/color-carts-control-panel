@@ -13,7 +13,6 @@ import {
   connectToDB,
   comparePassword,
 } from '../service';
-import { connect } from 'http2';
 
 const salt = genSaltSync();
 
@@ -179,11 +178,48 @@ interface UserDataBody {
 
 router.put(
   '/update/user-data',
-  (
+  async (
     req: Request<any, any, UserDataBody>,
     res: Response<ResToApp>
   ) => {
     const { user, newData, password } = req.body;
+
+    const client = await connectToDB();
+
+    const foundUser = await findUser(
+      client,
+      user
+    );
+
+    if (
+      foundUser &&
+      (await comparePassword(
+        { ...user, password },
+        foundUser
+      ))
+    ) {
+      await client
+        .db('color-cart')
+        .collection('admins')
+        .updateOne(
+          { ...foundUser },
+          {
+            $set: {
+              ...newData,
+            },
+          }
+        );
+
+      return res.json({
+        msg: 'Successful',
+        status: 200,
+      });
+    }
+
+    return res.json({
+      msg: 'Invalid password',
+      status: 400,
+    });
   }
 );
 

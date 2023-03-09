@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,12 +13,20 @@ import {
   UpdateUserDataService,
   UpdateUserFormProps,
 } from './update-user-data.service';
-import { AuthService } from '../auth/auth.service';
+import {
+  AuthService,
+  UserData,
+} from '../auth/auth.service';
 
 interface UpdateUserDataFormProps {
   email: FormControl<string>;
   name: FormControl<string>;
   confirmingPassword: FormControl<string>;
+}
+
+export interface UserDataEmitterProps {
+  newData: Omit<UserData, 'isLogged'>;
+  confirmingPassword: string;
 }
 
 @Component({
@@ -27,8 +40,10 @@ interface UpdateUserDataFormProps {
 export class UpdateUserDataFromComponent
   implements OnInit
 {
-  updateUserDataForm!: FormGroup<UpdateUserDataFormProps>;
-  updateUserDataFormFields!: UpdateUserFormProps[];
+  protected updateUserDataForm!: FormGroup<UpdateUserDataFormProps>;
+  protected updateUserDataFormFields!: UpdateUserFormProps[];
+  @Output() userDataEmitter =
+    new EventEmitter<UserDataEmitterProps>();
 
   constructor(
     private updateUserDataService: UpdateUserDataService,
@@ -67,9 +82,41 @@ export class UpdateUserDataFromComponent
   }
 
   onSubmit() {
-    const { confirmingPassword, email, name } =
-      this.updateUserDataForm.controls;
+    let emittingVal: UserDataEmitterProps = {
+      confirmingPassword: '',
+      newData: {
+        email: '',
+        name: '',
+      },
+    };
 
-    console.log(confirmingPassword, email, name);
+    for (let control in this.updateUserDataForm
+      .controls) {
+      control !== 'confirmingPassword' &&
+        Object.defineProperty(
+          emittingVal.newData,
+          control,
+          {
+            value:
+              this.updateUserDataForm.controls[
+                control as keyof UpdateUserDataFormProps
+              ].value,
+          }
+        );
+
+      control === 'confirmingPassword' &&
+        Object.defineProperty(
+          emittingVal,
+          control,
+          {
+            value:
+              this.updateUserDataForm.controls[
+                control as keyof UpdateUserDataFormProps
+              ].value,
+          }
+        );
+    }
+
+    this.userDataEmitter.emit(emittingVal);
   }
 }

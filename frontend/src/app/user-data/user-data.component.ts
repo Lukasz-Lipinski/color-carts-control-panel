@@ -9,7 +9,7 @@ import {
   AuthService,
   UserData,
 } from '../components/auth/auth.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import { ToastDirective } from '../components/toast/toast.directive';
 import { ToastService } from '../components/toast/toast.service';
+import { UserDataEmitterProps } from '../components/update-user-data-from/update-user-data-from.component';
 
 export interface UserFormProps {
   email: FormControl<string>;
@@ -30,8 +31,8 @@ export interface UserFormProps {
   imports: [SharedModule],
 })
 export class UserDataComponent implements OnInit {
-  userData!: Observable<UserData>;
-  userForm!: FormGroup<UserFormProps>;
+  protected userData!: Observable<UserData>;
+  protected userForm!: FormGroup<UserFormProps>;
   @ViewChild(ToastDirective)
   toast!: ToastDirective;
 
@@ -54,6 +55,21 @@ export class UserDataComponent implements OnInit {
         validators: [Validators.required],
       }),
     });
+  }
+
+  onSaveUserData(newData: UserDataEmitterProps) {
+    this.authService.user$
+      .pipe(
+        switchMap((user) => {
+          return this.authService.updateUserData({
+            user,
+            newData,
+          });
+        })
+      )
+      .subscribe({
+        next: (val) => console.log(val),
+      });
   }
 
   onSaveNewPassword(passwords: {
