@@ -45,8 +45,8 @@ export class AuthService {
 
   user$ = new BehaviorSubject<UserData>({
     isLogged: false,
-    name: 'test111',
-    email: 'test@test.com',
+    name: '',
+    email: '',
   });
 
   constructor(private http: HttpClient) {}

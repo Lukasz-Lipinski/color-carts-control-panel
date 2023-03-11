@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -25,13 +26,14 @@ export interface PasswordFormProps {
 }
 
 @Component({
-  selector: 'app-password-form',
+  selector: 'app-password-form[disabled]',
   templateUrl: './password-form.component.html',
   styleUrls: ['./password-form.component.scss'],
 })
 export class PasswordFormComponent {
   passwordForm!: FormGroup<PasswordFormProps>;
   passwordInputs!: PasswordFields[];
+  @Input() disabled!: boolean;
   @Output() passwordEmitter = new EventEmitter<{
     newPassword: string;
     currPassword: string;

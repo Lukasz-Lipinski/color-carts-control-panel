@@ -8,7 +8,7 @@ import { BackendRes } from '../auth/auth.service';
 @Component({
   selector: 'app-toast[details]',
   templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.css'],
+  styleUrls: ['./toast.component.scss'],
 })
 export class ToastComponent implements OnInit {
   @Input() details: BackendRes | null = null;

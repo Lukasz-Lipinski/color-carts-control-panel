@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild,
@@ -29,17 +31,23 @@ export interface UserFormProps {
   styleUrls: ['./user-data.component.scss'],
   standalone: true,
   imports: [SharedModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserDataComponent implements OnInit {
-  protected userData!: Observable<UserData>;
-  protected userForm!: FormGroup<UserFormProps>;
+  userData!: Observable<UserData>;
+  userForm!: FormGroup<UserFormProps>;
+  disabledForms = {
+    disabledUserDataForm: false,
+    disabledPasswordForm: false,
+  };
   @ViewChild(ToastDirective)
   toast!: ToastDirective;
 
   constructor(
     private toastService: ToastService,
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +66,11 @@ export class UserDataComponent implements OnInit {
   }
 
   onSaveUserData(newData: UserDataEmitterProps) {
+    this.disabledForms = {
+      ...this.disabledForms,
+      disabledUserDataForm: true,
+    };
+
     this.authService.user$
       .pipe(
         switchMap((user) => {
@@ -68,7 +81,17 @@ export class UserDataComponent implements OnInit {
         })
       )
       .subscribe({
-        next: (val) => console.log(val),
+        next: (res) => {
+          this.disabledForms = {
+            ...this.disabledForms,
+            disabledUserDataForm: false,
+          };
+          this.toastService.createComponent(
+            this.toast,
+            res
+          );
+          this.cdr.markForCheck();
+        },
       });
   }
 
@@ -76,14 +99,25 @@ export class UserDataComponent implements OnInit {
     newPassword: string;
     currPassword: string;
   }) {
+    this.disabledForms = {
+      ...this.disabledForms,
+      disabledPasswordForm: true,
+    };
     this.authService
       .setNewPassword(passwords)
       .subscribe({
-        next: (res) =>
+        next: (res) => {
           this.toastService.createComponent(
             this.toast,
             res
-          ),
+          );
+
+          this.disabledForms = {
+            ...this.disabledForms,
+            disabledPasswordForm: false,
+          };
+          this.cdr.markForCheck();
+        },
       });
   }
 }

@@ -1,6 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -18,7 +20,7 @@ import {
   UserData,
 } from '../auth/auth.service';
 
-interface UpdateUserDataFormProps {
+export interface UpdateUserDataFormProps {
   email: FormControl<string>;
   name: FormControl<string>;
   confirmingPassword: FormControl<string>;
@@ -30,20 +32,22 @@ export interface UserDataEmitterProps {
 }
 
 @Component({
-  selector: 'app-update-user-data-from',
+  selector: 'app-update-user-data-from[disabled]',
   templateUrl:
     './update-user-data-from.component.html',
   styleUrls: [
     './update-user-data-from.component.scss',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateUserDataFromComponent
   implements OnInit
 {
-  protected updateUserDataForm!: FormGroup<UpdateUserDataFormProps>;
-  protected updateUserDataFormFields!: UpdateUserFormProps[];
+  updateUserDataForm!: FormGroup<UpdateUserDataFormProps>;
+  updateUserDataFormFields!: UpdateUserFormProps[];
   @Output() userDataEmitter =
     new EventEmitter<UserDataEmitterProps>();
+  @Input() disabled!: boolean;
 
   constructor(
     private updateUserDataService: UpdateUserDataService,

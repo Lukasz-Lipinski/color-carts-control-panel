@@ -33,6 +33,7 @@
     class="container d-flex justify-content-center"
   >
     <button
+      *ngIf="!disabled; else Spinner"
       type="submit"
       class="btn"
       [ngClass]="
@@ -46,3 +47,11 @@
     </button>
   </div>
 </form>
+
+<ng-template #Spinner>
+  <div class="spinner-grow text-warning">
+    <span class="visually-hidden">
+      Loading...
+    </span>
+  </div>
+</ng-template>

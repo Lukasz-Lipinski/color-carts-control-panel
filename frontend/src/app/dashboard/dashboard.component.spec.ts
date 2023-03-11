@@ -24,6 +24,7 @@ describe('Testing Dashboard Component', () => {
     component = fixture.componentInstance;
 
     component.ngOnInit();
+    fixture.detectChanges();
   });
 
   describe('DOM Tests', () => {

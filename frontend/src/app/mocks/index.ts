@@ -9,13 +9,42 @@ import {
 } from '../components/create-product-form/create-product.service';
 import { ModalDetails } from '../components/modal/modal.component';
 import { Link } from '../components/navigation/navigation.service';
+import { PasswordFields } from '../components/password-form/password-form.service';
 import { Product } from '../components/products-list/product-item/product-item.component';
+import { UserDataEmitterProps } from '../components/update-user-data-from/update-user-data-from.component';
+import { UpdateUserFormProps } from '../components/update-user-data-from/update-user-data.service';
 
 export const mockedUser: NewUser = {
   email: 'test@email.com',
   name: 'test-name',
   password: 'test-password',
 };
+
+export const mockedEmitterData: UserDataEmitterProps =
+  {
+    newData: mockedUser,
+    confirmingPassword: 'test12435',
+  };
+
+export const mockedUpdateUserFields: UpdateUserFormProps[] =
+  [
+    {
+      name: 'test',
+      type: 'text',
+      placeholder: 'test',
+    },
+  ];
+
+export const mockedPasswordFields: PasswordFields[] =
+  [
+    {
+      paragraph: 'Test',
+      formControl: 'test',
+      placeholder: 'test',
+      type: 'password',
+      hidden: true,
+    },
+  ];
 
 export const mockedProduct: Product = {
   name: 'test',

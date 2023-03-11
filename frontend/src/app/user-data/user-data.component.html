@@ -4,6 +4,9 @@
   >
     <app-update-user-data-from
       (userDataEmitter)="onSaveUserData($event)"
+      [disabled]="
+        disabledForms.disabledUserDataForm
+      "
     ></app-update-user-data-from>
   </div>
   <div
@@ -12,6 +15,9 @@
     <app-password-form
       (passwordEmitter)="
         onSaveNewPassword($event)
+      "
+      [disabled]="
+        disabledForms.disabledPasswordForm
       "
     ></app-password-form>
   </div>
