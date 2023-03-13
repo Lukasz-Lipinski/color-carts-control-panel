@@ -1,0 +1,17 @@
+<ul class="pagination">
+  <li class="page-item">
+    <a class="page-link">Previus</a>
+  </li>
+  <li
+    *ngFor="let i of getLabels()"
+    class="page-item"
+    [ngClass]="
+      selectedIndex === i ? 'active' : ''
+    "
+  >
+    <a class="page-link">{{ i }}</a>
+  </li>
+  <li class="page-item">
+    <a class="page-link">Next</a>
+  </li>
+</ul>

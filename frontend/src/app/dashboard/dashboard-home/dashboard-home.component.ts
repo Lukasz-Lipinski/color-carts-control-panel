@@ -1,16 +1,10 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Observable,
-  combineLatest,
-  map,
-  of,
-} from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BackendRes } from 'src/app/components/auth/auth.service';
 import {
   CreateProductService,
@@ -21,6 +15,11 @@ import { SearcherParameters } from 'src/app/components/searcher/searcher.compone
 import { ToastDirective } from 'src/app/components/toast/toast.directive';
 import { ToastService } from 'src/app/components/toast/toast.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+
+interface ProductsDetails {
+  productsNumber: number;
+  selectedIndex: number;
+}
 
 @Component({
   selector: 'app-dashboard-home',
@@ -39,6 +38,10 @@ export class DashboardHomeComponent
   products$!: Observable<Product[] | null>;
   selectedProduct$!: Observable<Product>;
   modal$!: Observable<ModalType>;
+  productsDetails: ProductsDetails = {
+    productsNumber: 5,
+    selectedIndex: 1,
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -61,12 +64,20 @@ export class DashboardHomeComponent
             };
             return null;
           }
+          this.productsDetails = {
+            ...this.productsDetails,
+            productsNumber: Math.ceil(
+              products.length /
+                this.productsDetails
+                  .productsNumber
+            ),
+          };
           return products as Product[];
         })
       );
   }
 
-  onRemoveProduct() {}
+  onRemoveProduct() {} // compolete it!
 
   setToast(res: BackendRes) {
     this.toastService.createComponent(

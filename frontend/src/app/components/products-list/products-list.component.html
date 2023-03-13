@@ -1,6 +1,21 @@
-<ul class="list-group py-3 gap-3">
+<ul
+  class="list-group py-3"
+  *ngIf="
+    (products$ | async)?.length;
+    else NothingFound
+  "
+>
   <app-product-item
     *ngFor="let product of products$ | async"
     [product]="product"
   ></app-product-item>
 </ul>
+
+<ng-template #NothingFound>
+  <li>
+    <p>
+      Nothing found, please change your parameters
+      to a find product
+    </p>
+  </li>
+</ng-template>

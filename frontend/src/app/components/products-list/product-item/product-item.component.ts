@@ -29,6 +29,7 @@ export class ProductItemComponent
   implements OnInit
 {
   @Input() product!: Product;
+  showModalDetails = false;
 
   constructor(
     private createProductService: CreateProductService
@@ -36,7 +37,9 @@ export class ProductItemComponent
 
   ngOnInit() {}
 
-  onUpdate() {
+  onUpdate(event: Event) {
+    event.stopPropagation();
+
     this.createProductService.modal$.next(
       'update'
     );
@@ -45,12 +48,19 @@ export class ProductItemComponent
     );
   }
 
-  onDeleteProduct() {
+  onDeleteProduct(event: Event) {
+    event.stopPropagation();
+
     this.createProductService.modal$.next(
       'remove'
     );
     this.createProductService.productDetails$.next(
       this.product
     );
+  }
+
+  onToggleModal() {
+    this.showModalDetails =
+      !this.showModalDetails;
   }
 }

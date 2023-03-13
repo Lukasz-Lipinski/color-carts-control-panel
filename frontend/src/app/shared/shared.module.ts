@@ -18,6 +18,7 @@ import { UpdatedFormModalComponent } from '../components/updated-form-modal/upda
 import { RemoveModalComponent } from '../components/remove-modal/remove-modal.component';
 import { PasswordFormComponent } from '../components/password-form/password-form.component';
 import { UpdateUserDataFromComponent } from '../components/update-user-data-from/update-user-data-from.component';
+import { PaginationComponent } from '../components/pagination/pagination.component';
 
 const components = [
   PasswordFormComponent,
@@ -34,6 +35,7 @@ const components = [
   UpdatedFormModalComponent,
   RemoveModalComponent,
   UpdateUserDataFromComponent,
+  PaginationComponent,
 ];
 
 @NgModule({

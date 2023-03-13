@@ -5,8 +5,17 @@
 <app-products-list
   *ngIf="products$ | async; else Error"
   [products$]="products$"
+  [howManyDisplay]="
+    productsDetails.productsNumber
+  "
 >
 </app-products-list>
+
+<app-pagination
+  [productsNumber]="
+    productsDetails.productsNumber
+  "
+></app-pagination>
 
 <app-updated-form-modal
   *ngIf="(modal$ | async) === 'update'"
