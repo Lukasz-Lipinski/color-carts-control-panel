@@ -1,6 +1,9 @@
 <ul class="pagination">
-  <li class="page-item">
-    <a class="page-link">Previus</a>
+  <li
+    class="page-item"
+    (click)="onChangePage('previous')"
+  >
+    <a class="page-link">Previous</a>
   </li>
   <li
     *ngFor="let i of getLabels()"
@@ -8,10 +11,14 @@
     [ngClass]="
       selectedIndex === i ? 'active' : ''
     "
+    (click)="onSetExactIndex(i)"
   >
     <a class="page-link">{{ i }}</a>
   </li>
-  <li class="page-item">
+  <li
+    class="page-item"
+    (click)="onChangePage('next')"
+  >
     <a class="page-link">Next</a>
   </li>
 </ul>

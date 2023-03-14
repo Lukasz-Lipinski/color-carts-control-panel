@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 
 @Component({
@@ -14,6 +16,8 @@ export class PaginationComponent
 {
   @Input() productsNumber!: number;
   @Input() selectedIndex!: number;
+  @Output() indexEmitter =
+    new EventEmitter<number>();
   private labels: number[] = [];
 
   constructor() {}
@@ -34,5 +38,23 @@ export class PaginationComponent
     ) {
       this.labels.push(i);
     }
+  }
+
+  onChangePage(label: 'previous' | 'next') {
+    label === 'next' &&
+      this.selectedIndex < this.productsNumber &&
+      this.indexEmitter.emit(
+        ++this.selectedIndex
+      );
+
+    label === 'previous' &&
+      this.selectedIndex > 1 &&
+      this.indexEmitter.emit(
+        --this.selectedIndex
+      );
+  }
+
+  onSetExactIndex(index: number) {
+    this.indexEmitter.emit(index);
   }
 }

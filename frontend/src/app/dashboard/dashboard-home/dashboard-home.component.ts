@@ -128,4 +128,11 @@ export class DashboardHomeComponent
         })
       );
   }
+
+  onChangeIndex(index: number) {
+    this.productsDetails = {
+      ...this.productsDetails,
+      selectedIndex: index,
+    };
+  }
 }

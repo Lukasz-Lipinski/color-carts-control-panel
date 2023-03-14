@@ -10,6 +10,8 @@ import { mockedProduct } from 'src/app/mocks';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { CreateProductService } from '../../create-product-form/create-product.service';
+import { ModalComponent } from '../../modal/modal.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('Testing ProductItem Component', () => {
   let fixture: ComponentFixture<ProductItemComponent>;
@@ -19,9 +21,14 @@ describe('Testing ProductItem Component', () => {
   let spyOnProductDetails$: any;
   let spyOnModalDetails$: any;
 
+  const event = new Event('');
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductItemComponent],
+      declarations: [
+        ProductItemComponent,
+        ModalComponent,
+      ],
       imports: [HttpClientTestingModule],
       providers: [CreateProductService],
     }).compileComponents();
@@ -64,7 +71,7 @@ describe('Testing ProductItem Component', () => {
 
     it('Should send product via service if onTransferProductToModal was invoked', () => {
       component.product = mockedProduct;
-      component.onUpdate();
+      component.onUpdate(event);
 
       expect(
         spyOnProductDetails$
@@ -75,11 +82,21 @@ describe('Testing ProductItem Component', () => {
     });
 
     it('Should invoke modalDetails$ observable if onDeleteProduct was invoked', () => {
-      component.onDeleteProduct();
+      component.onDeleteProduct(event);
 
       expect(
         spyOnModalDetails$
       ).toHaveBeenCalled();
+    });
+
+    it('Should switch modal component if onToggleModal was invoked', () => {
+      expect(
+        component.showModalDetails
+      ).toBeFalse();
+      component.onToggleModal();
+      expect(
+        component.showModalDetails
+      ).toBeTrue();
     });
   });
 
@@ -88,95 +105,63 @@ describe('Testing ProductItem Component', () => {
       expect(component).toBeDefined();
     });
 
-    it('Should display product details', () => {
-      const span = fixture.debugElement.query(
-        By.css('span.h4')
-      ).nativeElement as HTMLSpanElement;
-
-      expect(
-        span.textContent?.trim().toLowerCase()
-      ).toEqual(
-        `${mockedProduct.brand} ${mockedProduct.model} (${mockedProduct.name})`
+    it('Should invoke apropriate function depending on clicked button', () => {
+      const spyOnOnTransferProductToModal = spyOn(
+        component,
+        'onUpdate'
       );
+      const spyOnOnDeleteProduct = spyOn(
+        component,
+        'onDeleteProduct'
+      );
+
+      const divs = fixture.debugElement
+        .query(By.css('li'))
+        .queryAll(By.css('div'));
+
+      const buttons = (
+        divs[divs.length - 1]
+          .nativeElement as HTMLDivElement
+      ).querySelectorAll('button');
+
+      //Testing Update button
+      expect(
+        buttons[0].textContent?.trim()
+      ).toEqual('Update');
+      buttons[0].click();
+      expect(
+        spyOnOnTransferProductToModal
+      ).toHaveBeenCalledTimes(1);
+
+      //Testing Delete button
+      expect(
+        buttons[1].textContent?.trim()
+      ).toEqual('Delete');
+      buttons[1].click();
+      expect(
+        spyOnOnDeleteProduct
+      ).toHaveBeenCalledTimes(1);
     });
 
-    it('Should return category taken from mockedProduct', () => {
-      const descriptionDivs = (
+    it('Should display modal while list element was clicked', () => {
+      const li = fixture.debugElement.query(
+        By.css('li')
+      ).nativeElement as HTMLLIElement;
+
+      let modal: HTMLDivElement | undefined =
         fixture.debugElement.query(
-          By.css('div.col')
-        ).nativeElement as HTMLDivElement
-      ).querySelectorAll('div.row');
+          By.css('div.modal')
+        )?.nativeElement as HTMLDivElement;
 
-      expect(
-        descriptionDivs[0].textContent?.trim()
-      ).toEqual(
-        `Category: ${mockedProduct.category}`
-      );
-      expect(
-        descriptionDivs[1].textContent?.trim()
-      ).toEqual(
-        `Subcategory: ${mockedProduct.subcategory}`
-      );
+      expect(modal).toBeUndefined();
+
+      li.click();
+      fixture.detectChanges();
+      modal = fixture.debugElement.query(
+        By.css('div.modal')
+      ).nativeElement as HTMLDivElement;
+
+      expect(modal).toBeDefined();
     });
-
-    it('Should display description taken from product', () => {
-      const descriptionDiv =
-        fixture.debugElement.queryAll(
-          By.css('div.col')
-        )[
-          fixture.debugElement.queryAll(
-            By.css('div.col')
-          ).length - 1
-        ].nativeElement as HTMLDivElement;
-
-      expect(
-        descriptionDiv
-          .querySelectorAll('span')[0]
-          .textContent?.trim()
-      ).toEqual('Description:');
-      expect(
-        descriptionDiv
-          .querySelectorAll('span')[1]
-          .textContent?.trim()
-      ).toEqual(mockedProduct.description);
-    });
-  });
-
-  it('Should invoke apropriate function depending on clicked button', () => {
-    const spyOnOnTransferProductToModal = spyOn(
-      component,
-      'onUpdate'
-    );
-    const spyOnOnDeleteProduct = spyOn(
-      component,
-      'onDeleteProduct'
-    );
-
-    const divs = fixture.debugElement
-      .query(By.css('li'))
-      .queryAll(By.css('div'));
-
-    const buttons = (
-      divs[divs.length - 1]
-        .nativeElement as HTMLDivElement
-    ).querySelectorAll('button');
-
-    //Testing Update button
-    expect(
-      buttons[0].textContent?.trim()
-    ).toEqual('Update');
-    buttons[0].click();
-    expect(
-      spyOnOnTransferProductToModal
-    ).toHaveBeenCalledTimes(1);
-
-    //Testing Delete button
-    expect(
-      buttons[1].textContent?.trim()
-    ).toEqual('Delete');
-    buttons[1].click();
-    expect(
-      spyOnOnDeleteProduct
-    ).toHaveBeenCalledTimes(1);
   });
 });

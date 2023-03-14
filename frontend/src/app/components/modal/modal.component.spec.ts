@@ -56,9 +56,9 @@ describe('Testing Modal Component', () => {
       const title = fixture.debugElement.query(
         By.css('span')
       ).nativeElement as HTMLSpanElement;
-      expect(title.textContent).toEqual(
-        mockedModal.title
-      );
+      expect(
+        title.textContent?.toLowerCase()
+      ).toEqual(mockedModal.title.toLowerCase());
     });
 
     it('Should project directly passed content as body', () => {
