@@ -77,8 +77,6 @@ export class DashboardHomeComponent
       );
   }
 
-  onRemoveProduct() {} // compolete it!
-
   setToast(res: BackendRes) {
     this.toastService.createComponent(
       this.toast,

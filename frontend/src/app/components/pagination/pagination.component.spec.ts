@@ -22,7 +22,7 @@ describe('Testing Pagination Component', () => {
     );
     component = fixture.componentInstance;
     component.selectedIndex = 3;
-    component.productsNumber = 10;
+    component.indexes = 10;
     spyOnIndexEmitter = spyOn(
       component.indexEmitter,
       'emit'
@@ -35,7 +35,7 @@ describe('Testing Pagination Component', () => {
     it('Should return labels', () => {
       for (let index of component.getLabels()) {
         expect(index).toBeLessThanOrEqual(
-          component.productsNumber
+          component.indexes
         );
       }
     });

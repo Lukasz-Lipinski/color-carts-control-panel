@@ -1,14 +1,7 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { UserDataResolver } from './user-data.resolver';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  AuthService,
-  UserData,
-} from '../components/auth/auth.service';
-import { of } from 'rxjs';
+import { AuthService } from '../components/auth/auth.service';
 
 describe('Testing UserData Resolver', () => {
   let resolver: UserDataResolver;

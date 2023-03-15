@@ -121,6 +121,12 @@ router.put(
     const { currPassword, newPassword, user } =
       req.body;
 
+    if (user.email === 'test@test.com')
+      return res.json({
+        msg: 'Mocked user data cannot be changed',
+        status: 400,
+      });
+
     const client = await connectToDB();
     const foundUser = await findUser(
       client,
@@ -183,6 +189,12 @@ router.put(
     res: Response<ResToApp>
   ) => {
     const { user, newData, password } = req.body;
+
+    if (user.email === 'test@test.com')
+      return res.json({
+        msg: 'Mocked user data cannot be changed',
+        status: 400,
+      });
 
     const client = await connectToDB();
 

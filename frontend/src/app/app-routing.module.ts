@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    // canMatch: [DashboardGuard],
+    canMatch: [DashboardGuard],
     loadComponent: () =>
       import(
         './dashboard/dashboard.component'

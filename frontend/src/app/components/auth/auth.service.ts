@@ -88,10 +88,6 @@ export class AuthService {
     });
   }
 
-  isLogged$() {
-    return of(true);
-  }
-
   setNewPassword(passwords: {
     newPassword: string;
     currPassword: string;

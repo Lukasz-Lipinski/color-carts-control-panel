@@ -17,22 +17,16 @@ import {
   mockedUser,
   mockedUserData,
 } from '../mocks';
-import { UserDataEmitterProps } from '../components/update-user-data-from/update-user-data-from.component';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { ToastDirective } from '../components/toast/toast.directive';
-import { ToastComponent } from '../components/toast/toast.component';
-import { DebugElement } from '@angular/core';
 
 describe('Testing User Data Component', () => {
   let fixture: ComponentFixture<UserDataComponent>;
   let component: UserDataComponent;
   let controller: HttpTestingController;
-
-  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -156,10 +150,10 @@ describe('Testing User Data Component', () => {
     component.onSaveUserData(mockedEmitterData);
     fixture.detectChanges();
 
-    console.log(toast);
-    // toast = fixture.debugElement.query(
-    //   By.css('div.toast')
-    // )?.nativeElement;
-    // expect(toast).toBeDefined();
+    toast = fixture.debugElement.query(
+      By.css('div.toast')
+    )?.nativeElement;
+
+    expect(toast).toBeDefined();
   });
 });
