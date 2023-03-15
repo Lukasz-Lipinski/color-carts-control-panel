@@ -33,7 +33,7 @@ export class PaginationComponent
     this.setLabels();
   }
 
-  setLabels() {
+  private setLabels() {
     this.labels = [];
     for (let i = 1; i <= this.indexes; ++i) {
       this.labels.push(i);
