@@ -10,11 +10,13 @@
     *ngFor="let input of fields"
     class="input-group flex-nowrap mb-3"
   >
-    <span class="input-group-text labelWidth">{{
-      input.label | uppercase
-    }}</span>
+    <span
+      class="input-group-text labelWidth zIndex"
+      >{{ input.label | uppercase }}</span
+    >
     <input
       class="form-control"
+      id="input"
       [ngClass]="
         checkIfValid(input.name)
           ? 'is-valid'
