@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   OnInit,
   ViewChild,
@@ -11,14 +10,11 @@ import {
 } from '@angular/forms';
 import {
   AuthService,
-  BackendRes,
   NewUser,
 } from '../auth/auth.service';
 import { ToastDirective } from '../toast/toast.directive';
-import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../toast/toast.service';
 import { Router } from '@angular/router';
-import { concatMap, of, switchMap } from 'rxjs';
 
 interface FormProps {
   name: FormControl<string>;
@@ -29,6 +25,7 @@ interface FormProps {
 interface Field {
   label: string;
   placeholder: string;
+  type: 'password' | 'text' | 'email';
 }
 
 @Component({
@@ -44,11 +41,20 @@ export class HomeFormComponent implements OnInit {
   toast!: ToastDirective;
 
   fields: Field[] = [
-    { label: 'name', placeholder: 'Your name' },
-    { label: 'email', placeholder: 'Your email' },
+    {
+      label: 'name',
+      placeholder: 'Your name',
+      type: 'text',
+    },
+    {
+      label: 'email',
+      placeholder: 'Your email',
+      type: 'email',
+    },
     {
       label: 'password',
       placeholder: 'Your password',
+      type: 'password',
     },
   ];
 

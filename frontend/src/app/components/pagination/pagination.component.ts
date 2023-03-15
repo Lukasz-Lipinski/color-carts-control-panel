@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  OnChanges,
   Component,
   EventEmitter,
   Input,
@@ -7,14 +9,14 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-pagination[productsNumber]',
+  selector: 'app-pagination[indexes]',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
 })
 export class PaginationComponent
   implements OnInit
 {
-  @Input() productsNumber!: number;
+  @Input() indexes!: number;
   @Input() selectedIndex!: number;
   @Output() indexEmitter =
     new EventEmitter<number>();
@@ -23,6 +25,7 @@ export class PaginationComponent
   constructor() {}
 
   getLabels() {
+    this.setLabels();
     return this.labels;
   }
 
@@ -31,18 +34,15 @@ export class PaginationComponent
   }
 
   setLabels() {
-    for (
-      let i = 1;
-      i <= this.productsNumber;
-      ++i
-    ) {
+    this.labels = [];
+    for (let i = 1; i <= this.indexes; ++i) {
       this.labels.push(i);
     }
   }
 
   onChangePage(label: 'previous' | 'next') {
     label === 'next' &&
-      this.selectedIndex < this.productsNumber &&
+      this.selectedIndex < this.indexes &&
       this.indexEmitter.emit(
         ++this.selectedIndex
       );

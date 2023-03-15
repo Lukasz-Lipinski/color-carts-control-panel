@@ -17,8 +17,9 @@ import { ToastService } from 'src/app/components/toast/toast.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 interface ProductsDetails {
-  productsNumber: number;
+  indexes: number;
   selectedIndex: number;
+  readonly howManyDisplay: number;
 }
 
 @Component({
@@ -39,9 +40,11 @@ export class DashboardHomeComponent
   selectedProduct$!: Observable<Product>;
   modal$!: Observable<ModalType>;
   productsDetails: ProductsDetails = {
-    productsNumber: 5,
+    indexes: 1,
     selectedIndex: 1,
+    howManyDisplay: 8,
   };
+  private searcher?: SearcherParameters;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,16 +66,13 @@ export class DashboardHomeComponent
               ...products,
             };
             return null;
+          } else {
+            this.setProductDetails(products);
+            this.error = undefined;
           }
-          this.productsDetails = {
-            ...this.productsDetails,
-            productsNumber: Math.ceil(
-              products.length /
-                this.productsDetails
-                  .productsNumber
-            ),
-          };
-          return products as Product[];
+          return this.setSelectedProducts(
+            products as Product[]
+          );
         })
       );
   }
@@ -87,43 +87,25 @@ export class DashboardHomeComponent
   }
 
   onSearch(parameters: SearcherParameters) {
+    this.searcher = parameters;
     this.products$ =
       this.activatedRoute.data.pipe(
         map(({ products }) => {
-          if (
-            parameters.category.toLowerCase() ===
-            'all'
-          ) {
-            return products.filter(
-              (product: Product) =>
-                `${product.name}${product.model}${product.brand}`.includes(
-                  parameters.product
-                )
-            );
-          }
-
-          if (
-            parameters.category.toLowerCase() !==
-            'all'
-          ) {
-            return (
-              products.filter(
-                (product: Product) =>
-                  product.category.toLowerCase() ===
-                  parameters.category
-              ) || null
-            );
-          }
-
+          return this.filterProducts(
+            parameters,
+            products
+          );
+        }),
+        map((products) => {
+          this.productsDetails = {
+            ...this.productsDetails,
+            selectedIndex: 1,
+          };
           return (
-            products.filter(
-              (product: Product) =>
-                `${product.name}${product.model}${product.brand}`.includes(
-                  parameters.product
-                ) &&
-                product.category.toLowerCase() ===
-                  parameters.category
-            ) || null
+            products &&
+            this.setSelectedProducts(
+              products as Product[]
+            )
           );
         })
       );
@@ -133,6 +115,102 @@ export class DashboardHomeComponent
     this.productsDetails = {
       ...this.productsDetails,
       selectedIndex: index,
+    };
+
+    this.products$ =
+      this.activatedRoute.data.pipe(
+        map(({ products }) => {
+          return this.searcher
+            ? this.filterProducts(
+                this.searcher,
+                products
+              )
+            : products;
+        }),
+        map((products) => {
+          return this.setSelectedProducts(
+            products
+          );
+        })
+      );
+  }
+
+  private setSelectedProducts(
+    products: Product[]
+  ): Product[] {
+    this.setProductDetails(products);
+
+    const lastIndex =
+      this.productsDetails.selectedIndex === 1
+        ? this.productsDetails.howManyDisplay
+        : this.productsDetails.howManyDisplay *
+            this.productsDetails.selectedIndex +
+          1;
+
+    const firstIndex =
+      this.productsDetails.selectedIndex === 1
+        ? 0
+        : this.productsDetails.howManyDisplay *
+            this.productsDetails.selectedIndex -
+          this.productsDetails.howManyDisplay;
+
+    return (products as Product[]).slice(
+      firstIndex,
+      lastIndex
+    );
+  }
+
+  private filterProducts(
+    parameters: SearcherParameters,
+    products: Product[]
+  ): Product[] {
+    if (
+      parameters.category.toLowerCase() === 'all'
+    ) {
+      return products.filter((product: Product) =>
+        `${product.name}${product.model}${product.brand}`.includes(
+          parameters.product
+        )
+      );
+    }
+
+    if (
+      parameters.category.toLowerCase() !== 'all'
+    ) {
+      return (
+        products.filter(
+          (product: Product) =>
+            product.category.toLowerCase() ===
+            parameters.category
+        ) || null
+      );
+    }
+
+    return (
+      products.filter(
+        (product: Product) =>
+          `${product.name}${product.model}${product.brand}`.includes(
+            parameters.product
+          ) &&
+          product.category.toLowerCase() ===
+            parameters.category
+      ) || null
+    );
+  }
+
+  private setProductDetails(products: Product[]) {
+    this.productsDetails = {
+      ...this.productsDetails,
+      indexes:
+        products.length %
+        this.productsDetails.howManyDisplay
+          ? Math.ceil(
+              products.length /
+                this.productsDetails
+                  .howManyDisplay
+            )
+          : products.length /
+            this.productsDetails.howManyDisplay,
     };
   }
 }

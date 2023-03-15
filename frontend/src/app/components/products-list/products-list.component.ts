@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Product } from './product-item/product-item.component';
 
 @Component({
-  selector: 'app-products-list[howManyDisplay]',
+  selector: 'app-products-list[pageIndex]',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
 })
@@ -17,7 +17,7 @@ export class ProductsListComponent
   @Input() products$!: Observable<
     Product[] | null
   >;
-  @Input() howManyDisplay!: number;
+  @Input() pageIndex!: number;
   constructor() {}
 
   ngOnInit(): void {}

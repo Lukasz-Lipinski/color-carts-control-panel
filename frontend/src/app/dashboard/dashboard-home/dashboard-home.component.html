@@ -5,16 +5,13 @@
 <app-products-list
   *ngIf="products$ | async; else Error"
   [products$]="products$"
-  [howManyDisplay]="
-    productsDetails.productsNumber
-  "
+  [pageIndex]="productsDetails.selectedIndex"
 >
 </app-products-list>
 
 <app-pagination
-  [productsNumber]="
-    productsDetails.productsNumber
-  "
+  *ngIf="!error"
+  [indexes]="productsDetails.indexes"
   [selectedIndex]="productsDetails.selectedIndex"
   (indexEmitter)="onChangeIndex($event)"
 ></app-pagination>
