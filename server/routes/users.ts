@@ -30,7 +30,11 @@ export interface ResToApp {
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => {
-  return res.json({ msg: 'hello' });
+  return res.json({
+    msg: 'hello',
+    res: `${process.env.MONGODB_URI}`,
+    test: 'test',
+  });
 });
 
 router.post(

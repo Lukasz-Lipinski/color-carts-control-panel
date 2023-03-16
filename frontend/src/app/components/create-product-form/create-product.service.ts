@@ -10,9 +10,11 @@ import {
   of,
 } from 'rxjs';
 import { environment as DevEnv } from 'src/environments/environment';
+import { environment as ProdEnv } from 'src/environments/environment.prod';
 import { BackendRes } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../products-list/product-item/product-item.component';
+import { mockedRes } from 'src/app/mocks';
 
 export interface Field {
   name: string;
@@ -33,7 +35,7 @@ export type ModalType = 'update' | 'remove' | '';
 export class CreateProductService {
   url = isDevMode()
     ? DevEnv.BACKEND_API
-    : process.env['BACKEND_API'];
+    : location.origin;
 
   private inputs: Field[] = [
     {

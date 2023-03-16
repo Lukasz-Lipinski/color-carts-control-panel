@@ -11,6 +11,7 @@ import {
   isDevMode,
 } from '@angular/core';
 import { environment as DevEnv } from 'src/environments/environment';
+import { environment as ProdEnv } from 'src/environments/environment.prod';
 import { UserDataEmitterProps } from '../update-user-data-from/update-user-data-from.component';
 
 export interface NewUser {
@@ -36,7 +37,7 @@ export interface UserData {
 export class AuthService {
   url = isDevMode()
     ? DevEnv.BACKEND_API
-    : process.env['BACKEND_API'];
+    : location.origin;
 
   user$ = new BehaviorSubject<UserData>({
     isLogged: false,

@@ -5,7 +5,7 @@ import { compare } from 'bcryptjs';
 
 export async function connectToDB() {
   return new MongoClient(
-    `${process.env.DB_API}`
+    `${process.env.MONGODB_URI}`
   ).connect();
 }
 
