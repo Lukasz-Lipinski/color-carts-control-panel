@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  BACKEND_API: ``,
+  BACKEND_API: location.origin,
 };

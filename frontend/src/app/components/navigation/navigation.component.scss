@@ -1,4 +1,7 @@
 .navbar-area {
+  z-index: 5;
+  height: 1.5rem;
+
   .navbar {
     transition: 0.3s;
     transform: translateY(-100%);
@@ -7,5 +10,6 @@
   &:hover .navbar {
     transition: 0.3s;
     transform: translateY(0%);
+    z-index: 100;
   }
 }

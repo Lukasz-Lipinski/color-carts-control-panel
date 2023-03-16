@@ -3,9 +3,9 @@
   class="container-fluid d-flex flex-column shadow border p-5 customWidth rounded"
   (ngSubmit)="onSubmit()"
 >
-  <h3 class="text-center h3 pb-4">
+  <h4 class="text-center h4 pb-4">
     Product Details
-  </h3>
+  </h4>
   <label
     *ngFor="let input of fields"
     class="input-group flex-nowrap mb-3"
@@ -62,7 +62,9 @@
   </div>
 
   <div class="py-3">
-    <h4 class="h4 text-center">Description</h4>
+    <h4 class="h4 text-center py-3">
+      Description
+    </h4>
 
     <textarea
       formControlName="description"

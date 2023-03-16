@@ -1,6 +1,8 @@
-<section class="container-fluid row gap-1">
+<section
+  class="container-fluid row gap-4 d-sm-flex flex-md-column flex-lg-row"
+>
   <div
-    class="container col-5 border shadow rounded-2 p-3"
+    class="container col-lg-5 col-md-12 border shadow rounded-2 p-3 customWidth"
   >
     <app-update-user-data-from
       (userDataEmitter)="onSaveUserData($event)"
@@ -10,7 +12,7 @@
     ></app-update-user-data-from>
   </div>
   <div
-    class="container col-5 border shadow rounded-2 p-3"
+    class="container col-lg-5 col-md-12 border shadow rounded-2 p-3 customWidth"
   >
     <app-password-form
       (passwordEmitter)="

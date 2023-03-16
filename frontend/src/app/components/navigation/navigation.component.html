@@ -1,35 +1,85 @@
-<div class="navbar-area">
+<div class="navbar-area position-relative">
   <nav
-    class="navbar border-bottom shadow-sm px-3"
+    class="navbar position-absolute w-100 bg-white border-bottom shadow-sm px-3"
   >
-    <span class="lead">
-      Hello {{ (user$ | async)?.name }}
-    </span>
-    <div class="d-flex gap-4">
-      <a
-        *ngFor="let link of links | async"
-        [routerLink]="link.href"
-        routerLinkActive="link-secondary"
-        [routerLinkActiveOptions]="{
-          exact: true
-        }"
-        class="link-primary fs-1 p-2"
-        [ngClass]="
-          link.label === 'Home'
-            ? 'navbar-brand'
-            : ''
-        "
-      >
-        <span [ngClass]="link.icon"></span>
-      </a>
-    </div>
-    <div>
+    <div
+      class="d-flex justify-content-between w-100 align-items-center"
+    >
+      <span class="lead">
+        Hello {{ (user$ | async)?.name }}
+      </span>
       <button
-        class="btn btn-outline-danger p-2"
-        (click)="onLogout()"
+        class="btn d-md-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseWidthExample"
+        aria-expanded="false"
+        aria-controls="collapseWidthExample"
       >
-        Logout
+        <span class="navbar-toggler-icon"></span>
       </button>
+      <div class="d-md-flex d-none gap-4">
+        <a
+          *ngFor="let link of links | async"
+          [routerLink]="link.href"
+          routerLinkActive="link-secondary"
+          [routerLinkActiveOptions]="{
+            exact: true
+          }"
+          class="link-primary fs-1 p-2"
+          [ngClass]="
+            link.label === 'Home'
+              ? 'navbar-brand'
+              : ''
+          "
+        >
+          <span [ngClass]="link.icon"></span>
+        </a>
+      </div>
+      <div class="d-none d-md-block">
+        <button
+          class="btn btn-outline-danger p-2"
+          (click)="onLogout()"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+
+    <div class="d-md-none d-flex flex-column">
+      <div
+        class="collapse"
+        id="collapseWidthExample"
+      >
+        <div
+          class="d-flex gap-4 flex-column py-2"
+        >
+          <a
+            *ngFor="let link of links | async"
+            [routerLink]="link.href"
+            routerLinkActive="link-secondary"
+            [routerLinkActiveOptions]="{
+              exact: true
+            }"
+            class="p-2 d-flex justify-content-center align-items-center gap-2 text-decoration-none"
+          >
+            <span
+              [ngClass]="link.icon"
+              class="link-primary fs-1"
+            ></span>
+            <span class="text-primary fs-6">
+              {{ link.label }}
+            </span>
+          </a>
+
+          <button
+            class="btn btn-danger p-2 mt-2"
+            (click)="onLogout()"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 </div>

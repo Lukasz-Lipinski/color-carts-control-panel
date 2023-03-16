@@ -4,7 +4,6 @@ import {
   Routes,
 } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { DashboardGuard } from './dashboard/dashboard.guard';
 import { DashboardHomeResolver } from './dashboard/dashboard-home/dashboard-home.resolver';
 import { UserDataResolver } from './user-data/user-data.resolver';
 
@@ -16,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    canMatch: [DashboardGuard],
+    // canMatch: [DashboardGuard],
     loadComponent: () =>
       import(
         './dashboard/dashboard.component'
