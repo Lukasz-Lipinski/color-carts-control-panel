@@ -4,11 +4,11 @@ This application allows to create new produt that will be delivered to other app
 
 ## However, if you didn't want to create your account, below are attached mocked data:
 
-email: \*\* test@test.com
+email: test@test.com
 
-name: \*\* test
+name: test
 
-password: \*\* testtest
+password: testtest
 
 #### Mocked user can't delete account or modify his data, but thanks of it You can see application and fully execute operations on database.
 
