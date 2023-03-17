@@ -1,15 +1,22 @@
+@mixin navAnimation($time, $position) {
+  transition: $time;
+  transform: translateY($position);
+}
+
 .navbar-area {
   z-index: 5;
   height: 1.5rem;
 
   .navbar {
-    transition: 0.3s;
-    transform: translateY(-100%);
+    @include navAnimation(0.3s, -100%);
+  }
+
+  .showNav {
+    @include navAnimation(0.3s, -100%);
   }
 
   &:hover .navbar {
-    transition: 0.3s;
-    transform: translateY(0%);
+    @include navAnimation(0.3s, 0);
     z-index: 100;
   }
 }

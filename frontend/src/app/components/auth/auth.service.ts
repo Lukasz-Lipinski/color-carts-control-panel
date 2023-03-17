@@ -130,4 +130,13 @@ export class AuthService {
       body
     );
   }
+
+  closeSubs() {
+    this.user$.next({
+      email: '',
+      isLogged: false,
+      name: '',
+    });
+    this.user$.complete();
+  }
 }

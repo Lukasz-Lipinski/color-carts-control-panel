@@ -25,6 +25,7 @@ export class NavigationComponent
 {
   links!: Observable<Link[]>;
   user$!: Observable<UserData>;
+  nav: boolean = false;
 
   constructor(
     private router: Router,
@@ -39,12 +40,14 @@ export class NavigationComponent
     this.user$ = this.authService.user$;
   }
 
+  showNav() {}
+
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/']);
   }
 
   ngOnDestroy() {
-    this.user$.subscribe().unsubscribe();
+    this.authService.closeSubs();
   }
 }
